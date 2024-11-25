@@ -13,7 +13,7 @@ class GraphToolsViewModule:
             st.session_state['chat_history'] = []
 
 
-    def runModule(self, user_input):
+    def run(self, user_input):
         completion = self.client.chat.completions.create(
         model = self.model,
             temperature = self.temp,

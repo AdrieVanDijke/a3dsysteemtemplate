@@ -40,8 +40,7 @@ class BasisChatView:
             )
             # Als de pagina staat niet gelijk is aan de optie, zet de pagina staat en rerun
             if st.session_state['paginaStaat'] != option:
-                st.session_state['chat_history'] = []
-                st.session_state['systemprompt'] = ""
+                self.module.reset()
                 self.appcore.zetPaginaStaat(option)
                 st.rerun()
 
@@ -73,7 +72,7 @@ class BasisChatView:
                 with st.sidebar:
                     with st.spinner(f"⚙️ {user_query[:40]}..."):
                         # Run de module met de gebruikers input	                
-                        response = self.module.runModule(user_query)   
+                        response = self.module.run(user_query)   
                         # Voeg de berichten toe aan de chat geschiedenis                      
                         st.session_state.chat_history.append(HumanMessage(content=user_query))                
                         st.session_state.chat_history.append(AIMessage(content=response))
@@ -86,8 +85,7 @@ class BasisChatView:
                 with st.chat_message("Human", avatar='👤'):
                     st.write(message.content) 
 
-    # WORKERS ======================================= 
- 
+    # WORKERS =======================================  
     # Systeem prompt opslaan 
     def save_systeem_prompt(self):
         st.session_state['systemprompt'] = st.session_state['input_area']

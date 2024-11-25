@@ -27,11 +27,16 @@ class AppCore:
 
 
     # Dynamisch modules laden 
-    def laadModule(self, module_name, class_name):
-        module = importlib.import_module(module_name)
-        # Dynamisch een class ophalen uit de module
-        klass = getattr(module, class_name)
-        return klass
+    def laadModule( self, module_name, class_name=None ):
+        # Class terug als class naam is opgegeven
+        if class_name is not None:
+            module = importlib.import_module(module_name)
+            klass = getattr(module, class_name)
+            return klass
+        # Module terug als class naam niet is opgegeven
+        else:
+            return importlib.import_module(module_name)
+        
 
 
     # Log functionaliteit

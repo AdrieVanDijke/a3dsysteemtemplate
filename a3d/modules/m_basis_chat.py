@@ -16,17 +16,25 @@ class BasisChatModule:
         if 'system_prompt' not in st.session_state:
             st.session_state['systemprompt'] = self.getSysteemPrompt()
 
+    
+    # Cache legen geheugen wissen ===============
+    def reset(self):
+        del st.session_state['chat_history'] 
+        del st.session_state['systemprompt']
+        del st.session_state['input_area'] # tekstveld in de sidebar voor de systeemprompt
 
-    def runModule(self, user_input):
+
+    # MAIN =====================================    
+    def run(self, user_input):
         completion = self.client.chat.completions.create(
         model = self.model,
             temperature = self.temp,
             messages=self.getChatMessages( user_input ),
         )
         return completion.choices[0].message.content
-    
-    # WORKERS ==================================
 
+
+    # WORKERS ==================================
     def getChatMessages(self, user_input):
         messages = []
         messages.insert(0, {"role": "system", "content": st.session_state['systemprompt']})
@@ -42,8 +50,8 @@ class BasisChatModule:
         messages.append({"role": "user", "content": user_input})
         return messages
 
-    # DATA =====================================
 
+    # DATA =====================================
     def getSysteemPrompt( self ):
         prompt = """Je bent een behulpzame mentale coach. Je taak is om de gebruiker zo goed mogelijk advies te geven. 
 Vraag door aan de gebruiker om dieper tot de kern door te dringen.

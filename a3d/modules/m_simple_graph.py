@@ -1,49 +1,81 @@
 import streamlit as st
-from openai import OpenAI
-from langchain_core.messages import AIMessage, HumanMessage
+from typing import TypedDict
+from langgraph.graph import StateGraph, START, END
+from langgraph.checkpoint.memory import MemorySaver
+
+
+# Define state
+class GraphState(TypedDict):
+    count: int
 
 
 class SimpleGraphModule:
     def __init__( self ):
-        self.client = OpenAI()
-        self.model = "gpt-4o-mini"
-        self.temp = 0.7
-        self.max_history = 10
         # Initialize chat history
         if "chat_history" not in st.session_state:
             st.session_state['chat_history'] = []
+        # config voor geheugen    
+        if "config" not in st.session_state:
+            st.session_state['config'] = {"configurable": {"thread_id": 1234}}
+        # geheugen    
+        if "memory" not in st.session_state:
+            st.session_state['memory'] = MemorySaver()
+        # Graph builder
+        if "builder" not in st.session_state:
+            st.session_state['builder'] = StateGraph(GraphState)
+            # Graph
+        if "graph" not in st.session_state:
+            st.session_state['graph'] = None
+        # Vlag voor initialisatie (om te voorkomen dat de graph meerdere keren wordt gemaakt)   
+        if "initvlag" not in st.session_state:
+            st.session_state['initvlag'] = False
+        # Maak de graph als deze nog niet is gemaakt
+        if st.session_state['initvlag'] == False:
+            self.maakGraph()
 
 
-    def runModule(self, user_input):
-        completion = self.client.chat.completions.create(
-        model = self.model,
-            temperature = self.temp,
-            messages=self.getChatMessages( user_input ),
-        )
-        return completion.choices[0].message.content
+    # Cache legen geheugen wissen ========================
+    def reset(self):
+        del st.session_state['chat_history'] 
+        del st.session_state['config']       
+        del st.session_state['memory']
+        del st.session_state['builder']
+        del st.session_state['graph']
+        del st.session_state['initvlag']
+
+
+    # Maak Nodes =========================================
+    # Create developer (test) node
+    def developer(self, state):
+        state['count'] += 1  # Getal verhogen
+        return state  # Aangepaste state teruggeven
+
+
+    # Maak de graph ======================================  
+    def maakGraph(self):
+        st.session_state['initvlag'] = True
+        # Node aan graph toevoegen
+        st.session_state['builder'].add_node("developer", self.developer)
+
+        # Zet beginpunt en eindpunt (eges)
+        st.session_state['builder'].add_edge(START, "developer")
+        st.session_state['builder'].add_edge('developer', END)
+
+        # Maak en gebruik de bouwer
+        st.session_state['graph'] = st.session_state['builder'].compile(checkpointer=st.session_state['memory'])
+        inputs = {"count": 0}  # begin staat
+        result = st.session_state['graph'].invoke(inputs, st.session_state['config'])
+        print(result)
+        return result
     
-    # WORKERS ==================================
+    # Run de module ======================================= 
+    def run(self, user_input):
+        # Run de graph
+        count = st.session_state['graph'].get_state(st.session_state['config']).values["count"]
+        result = st.session_state['graph'].invoke({"count": count}, st.session_state['config'])
+        return result
 
-    def getChatMessages(self, user_input):
-        messages = []
-        messages.insert(0, {"role": "system", "content": self.getSysteemPrompt()})
 
-        if len(st.session_state['chat_history']) > 0:
-            recent_history = st.session_state['chat_history'][-self.max_history:]
-            for message in recent_history:
-                if isinstance(message, AIMessage):
-                    messages.append({"role": "assistant", "content": message.content})
-                elif isinstance(message, HumanMessage):
-                    messages.append({"role": "user", "content": message.content})
 
-        messages.append({"role": "user", "content": user_input})
-        return messages
-
-    # DATA =====================================
-
-    def getSysteemPrompt( self ):
-        prompt = """Je bent een echte grappenmaker en maakt overal een grapje van.
-        """
-        return prompt
 
 
