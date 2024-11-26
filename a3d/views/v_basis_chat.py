@@ -36,7 +36,7 @@ class BasisChatView:
 
             option = st.selectbox(
                 "Selecteer een Module",
-                ("🗨️ Basis AI Chatbot", "🔗 Simpele Graph", "⛓️ Graph met Tools Test"),
+                ("🗨️ Basis AI Chatbot", "🔗 Simpele Graph"),
             )
             # Als de pagina staat niet gelijk is aan de optie, zet de pagina staat en rerun
             if st.session_state['paginaStaat'] != option:

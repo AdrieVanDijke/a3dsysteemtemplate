@@ -12,9 +12,7 @@ def main():
     elif st.session_state['paginaStaat'] == "🔗 Simpele Graph":
         klass = appcore.laadModule("a3d.views.v_simple_graph", "SimpleGraphView")
         klass()
-    elif st.session_state['paginaStaat'] == "⛓️ Graph met Tools Test":
-        klass = appcore.laadModule("a3d.views.v_graph_tools", "GraphToolsView")
-        klass()
+
 
 
 if __name__ == "__main__":

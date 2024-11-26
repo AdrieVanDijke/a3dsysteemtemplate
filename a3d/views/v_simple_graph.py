@@ -32,7 +32,7 @@ class SimpleGraphView:
         with st.sidebar:
             option = st.selectbox(
                 "Selecteer een Module",
-                ("🔗 Simpele Graph", "🗨️ Basis AI Chatbot", "⛓️ Graph met Tools Test"),
+                ("🔗 Simpele Graph", "🗨️ Basis AI Chatbot"),
             )
             # Als de pagina staat niet gelijk is aan de optie, zet de pagina staat en rerun
             if st.session_state['paginaStaat'] != option:
