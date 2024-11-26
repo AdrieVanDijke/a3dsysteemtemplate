@@ -56,12 +56,10 @@ class SimpleGraphView:
                 with st.sidebar:
                     with st.spinner(f"⚙️ {user_query[:40]}..."):
                         # Run de module met de gebruikers input	                
-                        response = self.controler.run(user_query)   
-                        # Voeg de berichten toe aan de chat geschiedenis ======================'
-                        # user_query is niet nodig voor deze module                     
-                        #st.session_state.chat_history.append(HumanMessage(content=user_query))    
+                        response = self.controler.run()   
+                        # Voeg alleen response berichten toe aan de chat geschiedenis ======================'    
                         count = response['count']  
-                        antw = f"Het nieuw getal is: {count}"        
+                        antw = f"Count: {count}"        
                         st.session_state.chat_history.append(AIMessage(content = antw))
 
         # Toon de chat geschiedenis

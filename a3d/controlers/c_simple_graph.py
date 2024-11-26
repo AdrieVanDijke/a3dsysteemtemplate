@@ -68,7 +68,7 @@ class SimpleGraphControler:
         return result
     
     # Run de module ======================================= 
-    def run(self, user_input):
+    def run(self):
         # Run de graph
         count = st.session_state['graph'].get_state(st.session_state['config']).values["count"]
         result = st.session_state['graph'].invoke({"count": count}, st.session_state['config'])
