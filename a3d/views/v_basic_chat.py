@@ -1,13 +1,13 @@
 import streamlit as st
-from a3d.utilities.appcore import AppCore
-from a3d.controlers.c_basis_chat import BasisChatControler
+from a3d.utilities.u_appcore import AppCoreUtilities
+from a3d.controlers.c_basic_chat import BasicChatControler
 from langchain_core.messages import AIMessage, HumanMessage
 
 
-class BasisChatView:
+class BasicChatView:
     def __init__( self ):
-        self.appcore = AppCore()
-        self.module = BasisChatControler()        
+        self.appcore = AppCoreUtilities()
+        self.module = BasicChatControler()        
         self.buildView()
 
 
@@ -36,7 +36,7 @@ class BasisChatView:
 
             option = st.selectbox(
                 "Select a Module",
-                ("🗨️ Basis AI Chatbot", "🔗 Simpele Graph"),
+                ("🗨️ Basic AI Chatbot", "🔗 Simple Graph"),
             )
             # Als de pagina staat niet gelijk is aan de optie, zet de pagina staat en rerun
             if st.session_state['appState'] != option:

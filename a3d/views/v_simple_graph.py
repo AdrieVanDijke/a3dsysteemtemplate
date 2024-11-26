@@ -1,12 +1,12 @@
 import streamlit as st
-from a3d.utilities.appcore import AppCore
+from a3d.utilities.u_appcore import AppCoreUtilities
 import a3d.controlers.c_simple_graph as sg
 from langchain_core.messages import AIMessage, HumanMessage
 
 
 class SimpleGraphView:
     def __init__( self ):
-        self.appcore = AppCore()  
+        self.appcore = AppCoreUtilities()  
         self.module = sg.SimpleGraphControler()      
         self.bouwView()
 
@@ -32,7 +32,7 @@ class SimpleGraphView:
         with st.sidebar:
             option = st.selectbox(
                 "Select a Module",
-                ("🔗 Simpele Graph", "🗨️ Basis AI Chatbot"),
+                ("🔗 Simple Graph", "🗨️ Basic AI Chatbot"),
             )
             # Als de pagina staat niet gelijk is aan de optie, zet de pagina staat en rerun
             if st.session_state['appState'] != option:
@@ -57,8 +57,9 @@ class SimpleGraphView:
                     with st.spinner(f"⚙️ {user_query[:40]}..."):
                         # Run de module met de gebruikers input	                
                         response = self.module.run(user_query)   
-                        # Voeg de berichten toe aan de chat geschiedenis                      
-                        st.session_state.chat_history.append(HumanMessage(content=user_query))    
+                        # Voeg de berichten toe aan de chat geschiedenis ======================'
+                        # user_query is niet nodig voor deze module                     
+                        #st.session_state.chat_history.append(HumanMessage(content=user_query))    
                         count = response['count']  
                         antw = f"Het nieuw getal is: {count}"        
                         st.session_state.chat_history.append(AIMessage(content = antw))

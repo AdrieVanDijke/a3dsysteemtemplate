@@ -31,7 +31,7 @@ class SimpleGraphControler:
             st.session_state['initflag'] = False
         # Maak de graph als deze nog niet is gemaakt
         if st.session_state['initflag'] == False:
-            self.maakGraph()
+            self.buildGraph()
 
 
     # Cache legen geheugen wissen ========================
@@ -52,8 +52,8 @@ class SimpleGraphControler:
 
 
     # Maak de graph ======================================  
-    def maakGraph(self):
-        st.session_state['initvlag'] = True
+    def buildGraph(self):
+        st.session_state['initflag'] = True
         # Node aan graph toevoegen
         st.session_state['builder'].add_node("developer", self.developer)
 

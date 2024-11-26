@@ -3,7 +3,7 @@ from openai import OpenAI
 from langchain_core.messages import AIMessage, HumanMessage
 
 
-class BasisChatControler:
+class BasicChatControler:
     def __init__( self ):
         self.client = OpenAI()
         self.model = "gpt-4o"
@@ -13,7 +13,7 @@ class BasisChatControler:
         if "chat_history" not in st.session_state:
             st.session_state['chat_history'] = []
         # Initialize system prompt    
-        if 'system_prompt' not in st.session_state:
+        if 'systemprompt' not in st.session_state:
             st.session_state['systemprompt'] = self.getSysteemPrompt()
 
     

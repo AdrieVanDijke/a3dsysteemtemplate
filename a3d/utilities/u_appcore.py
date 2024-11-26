@@ -14,11 +14,11 @@ os.environ["OPENAI_API_KEY"] = st.secrets["OPENAI_API_KEY"]
 
 # LANGSMITH ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-class AppCore:
+class AppCoreUtilities:
     def __init__(self):        
         # Pagina Staat zetten als deze nog niet bestaat
         if "appState" not in st.session_state:
-            self.setAppState("🗨️ Basis AI Chatbot")       
+            self.setAppState("🗨️ Basic AI Chatbot")       
 
 
     # Pagina Staat zetten
