@@ -1,13 +1,13 @@
 import streamlit as st
 from a3d.utilities.appcore import AppCore
-import a3d.modules.m_simple_graph as sg
+import a3d.controlers.c_simple_graph as sg
 from langchain_core.messages import AIMessage, HumanMessage
 
 
 class SimpleGraphView:
     def __init__( self ):
         self.appcore = AppCore()  
-        self.module = sg.SimpleGraphModule()      
+        self.module = sg.SimpleGraphControler()      
         self.bouwView()
 
 
@@ -31,13 +31,13 @@ class SimpleGraphView:
         )
         with st.sidebar:
             option = st.selectbox(
-                "Selecteer een Module",
+                "Select a Module",
                 ("🔗 Simpele Graph", "🗨️ Basis AI Chatbot"),
             )
             # Als de pagina staat niet gelijk is aan de optie, zet de pagina staat en rerun
-            if st.session_state['paginaStaat'] != option:
+            if st.session_state['appState'] != option:
                 self.module.reset()
-                self.appcore.zetPaginaStaat(option)
+                self.appcore.setAppState(option)
                 st.rerun()
 
 

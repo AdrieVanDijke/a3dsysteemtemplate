@@ -3,7 +3,7 @@ from openai import OpenAI
 from langchain_core.messages import AIMessage, HumanMessage
 
 
-class BasisChatModule:
+class BasisChatControler:
     def __init__( self ):
         self.client = OpenAI()
         self.model = "gpt-4o"

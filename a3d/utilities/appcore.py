@@ -17,17 +17,17 @@ os.environ["OPENAI_API_KEY"] = st.secrets["OPENAI_API_KEY"]
 class AppCore:
     def __init__(self):        
         # Pagina Staat zetten als deze nog niet bestaat
-        if "paginaStaat" not in st.session_state:
-            self.zetPaginaStaat("🗨️ Basis AI Chatbot")       
+        if "appState" not in st.session_state:
+            self.setAppState("🗨️ Basis AI Chatbot")       
 
 
     # Pagina Staat zetten
-    def zetPaginaStaat( self, staat ):
-        st.session_state['paginaStaat'] = staat
+    def setAppState( self, state ):
+        st.session_state['appState'] = state
 
 
     # Dynamisch modules laden 
-    def laadModule( self, module_name, class_name=None ):
+    def loadModule( self, module_name, class_name=None ):
         # Class terug als class naam is opgegeven
         if class_name is not None:
             module = importlib.import_module(module_name)
@@ -40,11 +40,11 @@ class AppCore:
 
 
     # Log functionaliteit
-    def log( self, boodschap, locatie="N.v.t." ):
-        if locatie:
-            print(f"[LOCATIE]: {locatie}") 
+    def log( self, text, location="N.v.t." ):
+        if location:
+            print(f"[LOCATIE]: {location}") 
 
-        print(f"[LOG]: {boodschap}")   
+        print(f"[LOG]: {text}")   
         print("-----------------------------------") 
 
             

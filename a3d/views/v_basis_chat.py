@@ -1,23 +1,23 @@
 import streamlit as st
 from a3d.utilities.appcore import AppCore
-from a3d.modules.m_basis_chat import BasisChatModule
+from a3d.controlers.c_basis_chat import BasisChatControler
 from langchain_core.messages import AIMessage, HumanMessage
 
 
 class BasisChatView:
     def __init__( self ):
         self.appcore = AppCore()
-        self.module = BasisChatModule()        
-        self.bouwView()
+        self.module = BasisChatControler()        
+        self.buildView()
 
 
     # VIEWS =========================================
-    def bouwView( self ):
-        self.bouwSidebarView()
-        self.bouwMainView()
+    def buildView( self ):
+        self.buildSidebarView()
+        self.buildMainView()
 
 
-    def bouwSidebarView( self ):
+    def buildSidebarView( self ):
         st.markdown(
             """
             <style>
@@ -31,39 +31,39 @@ class BasisChatView:
         )
         
         with st.sidebar:
-            if st.button("🆕 Nieuwe Chat 🪄"):
+            if st.button("🆕 New Chat 🪄"):
                 st.session_state['chat_history'] = []
 
             option = st.selectbox(
-                "Selecteer een Module",
+                "Select a Module",
                 ("🗨️ Basis AI Chatbot", "🔗 Simpele Graph"),
             )
             # Als de pagina staat niet gelijk is aan de optie, zet de pagina staat en rerun
-            if st.session_state['paginaStaat'] != option:
+            if st.session_state['appState'] != option:
                 self.module.reset()
-                self.appcore.zetPaginaStaat(option)
+                self.appcore.setAppState(option)
                 st.rerun()
 
             # Systeemprompt gedeelte       
             st.text_area(
-                "Systeemprompt:",
+                "System Prompt:",
                 key = "input_area",  # Koppel het tekstgebied aan st.session_state
                 value = st.session_state['systemprompt'],  # Vul het tekstveld met de opgeslagen waarde
                 height = 200,
             )
             st.button(
-                "🔁 Systeemprompt Instellen ✅",
+                "🔁 Use System Prompt ✅",
                 on_click = self.save_systeem_prompt  # Roep de save_systeem_prompt-functie aan bij een klik op de knop
             )
 
 
-    def bouwMainView( self ):
+    def buildMainView( self ):
         user_query = ''
         response = ''
         # Toon het eerste bericht van de AI als er geen chat geschiedenis is
         if len(st.session_state['chat_history']) == 0:                
             with st.chat_message("AI", avatar='🤖'):
-                st.write(self.getChatIntroTekst())
+                st.write(self.getChatIntroTexst())
 
         # Gebruik een invoerveld om berichten van de gebruiker te ontvangen
         user_query = st.chat_input(placeholder="Bericht naar AI") 
@@ -92,7 +92,7 @@ class BasisChatView:
 
 
     # Introductie tekst voor de chat
-    def getChatIntroTekst( self ):   
+    def getChatIntroTexst( self ):   
         intro_tekst = """        
         **Hallo**, Ik ben een basis OpenAI Chatbot met een Systeemprompt en geheugen van 10 berichten.  
         Waar kan ik je mee van dienst zijn?  
