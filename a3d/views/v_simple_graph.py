@@ -7,17 +7,17 @@ from langchain_core.messages import AIMessage, HumanMessage
 class SimpleGraphView:
     def __init__( self ):
         self.appcore = AppCoreUtilities()  
-        self.module = sg.SimpleGraphControler()      
+        self.controler = sg.SimpleGraphControler()      
         self.bouwView()
 
 
     # VIEWS =========================================
     def bouwView( self ):
-        self.bouwSidebarView()
-        self.bouwMainView()
+        self.buildSidebarView()
+        self.buildMainView()
 
 
-    def bouwSidebarView( self ):
+    def buildSidebarView( self ):
         st.markdown(
             """
             <style>
@@ -36,17 +36,17 @@ class SimpleGraphView:
             )
             # Als de pagina staat niet gelijk is aan de optie, zet de pagina staat en rerun
             if st.session_state['appState'] != option:
-                self.module.reset()
+                self.controler.reset()
                 self.appcore.setAppState(option)
                 st.rerun()
 
 
-    def bouwMainView( self ):
+    def buildMainView( self ):
         user_query = ''
         response = ''
         # Toon het eerste bericht van de AI als er geen chat geschiedenis is
         if len(st.session_state['chat_history']) == 0:                
-            with st.chat_message("AI", avatar='🤖'):
+            with st.chat_message("AI", avatar='🧮'):
                 st.write(self.getChatIntroTekst())
 
         # Gebruik een invoerveld om berichten van de gebruiker te ontvangen
@@ -56,7 +56,7 @@ class SimpleGraphView:
                 with st.sidebar:
                     with st.spinner(f"⚙️ {user_query[:40]}..."):
                         # Run de module met de gebruikers input	                
-                        response = self.module.run(user_query)   
+                        response = self.controler.run(user_query)   
                         # Voeg de berichten toe aan de chat geschiedenis ======================'
                         # user_query is niet nodig voor deze module                     
                         #st.session_state.chat_history.append(HumanMessage(content=user_query))    
@@ -67,7 +67,7 @@ class SimpleGraphView:
         # Toon de chat geschiedenis
         for message in st.session_state.chat_history:
             if isinstance(message, AIMessage):
-                with st.chat_message("AI", avatar='🤖'):
+                with st.chat_message("AI", avatar='🧮'):
                     st.write(message.content)
             elif isinstance(message, HumanMessage):
                 with st.chat_message("Human", avatar='👤'):
