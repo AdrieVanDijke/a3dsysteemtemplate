@@ -36,7 +36,7 @@ class BasicChatView:
 
             option = st.selectbox(
                 "Select a Module",
-                ("🗨️ Basic AI Chatbot", "🔗 Simple Graph"),
+                ("🗨️ Basic AI Chatbot", "🔗 Simple Graph", "♻️ ReAct Agent"),
             )
             # Als de pagina staat niet gelijk is aan de optie, zet de pagina staat en rerun
             if st.session_state['appState'] != option:

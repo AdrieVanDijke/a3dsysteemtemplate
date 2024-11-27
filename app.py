@@ -12,6 +12,9 @@ def main():
     elif st.session_state['appState'] == "🔗 Simple Graph":
         klass = appcore.loadModule("a3d.views.v_simple_graph", "SimpleGraphView")
         klass()
+    elif st.session_state['appState'] == "♻️ ReAct Agent":
+        klass = appcore.loadModule("a3d.views.v_react_agent", "ReActAgentView")
+        klass()
 
 
 if __name__ == "__main__":

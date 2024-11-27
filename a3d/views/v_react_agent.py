@@ -1,13 +1,13 @@
 import streamlit as st
 from a3d.utilities.u_appcore import AppCoreUtilities
-import a3d.controlers.c_simple_graph as sg
+import a3d.controlers.c_react_agent as ra
 from langchain_core.messages import AIMessage, HumanMessage
 
 
-class SimpleGraphView:
+class ReActAgentView:
     def __init__( self ):
         self.appcore = AppCoreUtilities()  
-        self.controler = sg.SimpleGraphControler()      
+        self.controler = ra.ReActAgentControler()      
         self.bouwView()
 
 
@@ -32,7 +32,7 @@ class SimpleGraphView:
         with st.sidebar:
             option = st.selectbox(
                 "Select a Module",
-                ("🔗 Simple Graph", "🗨️ Basic AI Chatbot", "♻️ ReAct Agent"),
+                ("♻️ ReAct Agent", "🔗 Simple Graph", "🗨️ Basic AI Chatbot"),
             )
             # Als de pagina staat niet gelijk is aan de optie, zet de pagina staat en rerun
             if st.session_state['appState'] != option:
@@ -43,11 +43,9 @@ class SimpleGraphView:
 
     def buildMainView( self ):
         user_query = ''
-        response = ''
-        # Toon het eerste bericht van de AI als er geen chat geschiedenis is
-        if len(st.session_state['chat_history']) == 0:                
-            with st.chat_message("AI", avatar='🧮'):
-                st.write(self.getChatIntroTekst())
+        response = ''             
+        with st.chat_message("AI", avatar='🤖'):
+            st.write(self.getChatIntroTekst())
 
         # Gebruik een invoerveld om berichten van de gebruiker te ontvangen
         user_query = st.chat_input(placeholder="Bericht naar AI") 
@@ -56,28 +54,24 @@ class SimpleGraphView:
                 with st.sidebar:
                     with st.spinner(f"⚙️ {user_query[:40]}..."):
                         # Run de module met de gebruikers input	                
-                        response = self.controler.run()   
-                        # Voeg alleen response berichten toe aan de chat geschiedenis    
-                        count = response['count']  
-                        antw = f"Count: {count}"        
-                        st.session_state.chat_history.append(AIMessage(content = antw))
+                        response = self.controler.run(user_query)
+                        st.session_state['chat_history'] = [] 
+                        # Voeg de berichten toe aan de chat geschiedenis                                             
+                        st.session_state.chat_history.append(HumanMessage(content=user_query))                
+                        st.session_state.chat_history.append(AIMessage(content=response))                        
+            # Toon de chat berichten
+            with st.chat_message("Human", avatar='👤'):
+                st.write(user_query)
+            with st.chat_message("AI", avatar='🤖'):
+                st.write(response)
 
-        # Toon de chat geschiedenis
-        for message in st.session_state.chat_history:
-            if isinstance(message, AIMessage):
-                with st.chat_message("AI", avatar='🧮'):
-                    st.write(message.content)
-            elif isinstance(message, HumanMessage):
-                with st.chat_message("Human", avatar='👤'):
-                    st.write(message.content) 
 
     # WORKERS =======================================    
     # standaard chat intro tekst
     def getChatIntroTekst( self ):   
         intro_tekst = """        
-        Dit is een hele simpele Graph module bedoeld om Graph en state functionaliteit te testen in een Class in een Streamlit omgeving.  
-        🔸 Type iets in het chatvenster en klik op Enter om een teller op te laten lopen.  
-        🔸 Wat je typt maakt niet uit.  
-        🔸 Standaard staat de teller op 1
+        **Hallo**, Ik ben een V/A ReAct Agent met Tools (een zoekfunctie *(zoeken op internet)* en diverse rekengereedschap). 
+        Ik heb geen geheugen, dus iedere vraag is op zichzelf staand.  
+        Waar kan ik je mee van dienst zijn?
         """
         return intro_tekst 

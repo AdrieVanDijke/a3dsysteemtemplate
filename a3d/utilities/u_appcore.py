@@ -38,7 +38,6 @@ class AppCoreUtilities:
             return importlib.import_module(module_name)
         
 
-
     # Log functionaliteit
     def log( self, text, location="N.v.t." ):
         if location:
