@@ -132,7 +132,11 @@ class ReActAgentControler:
     # WORKERS =============================================
     # Data: system prompt
     def getSystePrompt(self):
-        return "You are a helpful assistant tasked with using search and performing arithmetic on a set of inputs. Always answer in Dutch."
+        prompt = """
+        You are a helpful assistant tasked with using search and performing arithmetic on a set of inputs. 
+Always answer in Dutch.
+        """
+        return prompt
 
 
 
