@@ -18,7 +18,7 @@ class AppCoreUtilities:
     def __init__(self):        
         # App Staat zetten als deze nog niet bestaat
         if "appState" not in st.session_state:
-            self.setAppState("🗨️ Basic AI Chatbot")       
+            self.setAppState("🤖 Basic AI Chatbot")       
 
 
     # App Staat zetten

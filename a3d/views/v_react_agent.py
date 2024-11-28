@@ -32,19 +32,22 @@ class ReActAgentView:
         with st.sidebar:
             option = st.selectbox(
                 "Select a Module",
-                ("♻️ ReAct Agent", "🔗 Simple Graph", "🗨️ Basic AI Chatbot"),
+                ("♻️ ReAct Agent", "🧮 Simple Graph", "🤖 Basic AI Chatbot"),
             )
             # Als de pagina staat niet gelijk is aan de optie, zet de pagina staat en rerun
             if st.session_state['appState'] != option:
                 self.controler.reset()
                 self.appcore.setAppState(option)
                 st.rerun()
+            
+            if st.button("🆕 New Chat 🪄"):
+                st.session_state['chat_history'] = []
 
 
     def buildMainView( self ):
         user_query = ''
-        response = ''             
-        with st.chat_message("AI", avatar='🤖'):
+        response = ''                    
+        with st.chat_message("AI", avatar='♻️'):
             st.write(self.getChatIntroTekst())
 
         # Gebruik een invoerveld om berichten van de gebruiker te ontvangen
@@ -55,15 +58,19 @@ class ReActAgentView:
                     with st.spinner(f"⚙️ {user_query[:40]}..."):
                         # Run de module met de gebruikers input	                
                         response = self.controler.run(user_query)
-                        st.session_state['chat_history'] = [] 
+                        #st.session_state['chat_history'] = [] 
                         # Voeg de berichten toe aan de chat geschiedenis                                             
                         st.session_state.chat_history.append(HumanMessage(content=user_query))                
-                        st.session_state.chat_history.append(AIMessage(content=response))                        
-            # Toon de chat berichten
-            with st.chat_message("Human", avatar='👤'):
-                st.write(user_query)
-            with st.chat_message("AI", avatar='🤖'):
-                st.write(response)
+                        st.session_state.chat_history.append(AIMessage(content=response))    
+
+        # Toon de chat geschiedenis
+        for message in st.session_state.chat_history:
+            if isinstance(message, AIMessage):
+                with st.chat_message("AI", avatar='♻️'):
+                    st.write(message.content)
+            elif isinstance(message, HumanMessage):
+                with st.chat_message("Human", avatar='👤'):
+                    st.write(message.content) 
 
 
     # WORKERS =======================================    
@@ -71,7 +78,7 @@ class ReActAgentView:
     def getChatIntroTekst( self ):   
         intro_tekst = """        
         **Hallo**, Ik ben een V/A ReAct Agent met Tools (een zoekfunctie *(zoeken op internet)* en diverse rekengereedschap). 
-        Ik heb geen geheugen, dus iedere vraag is op zichzelf staand.  
+        Ik heb geen *echt* geheugen maar van de vorige vraag en het antwoord daarop wordt *(bij een vervolgvraag)* een samenvatting gemaakt.  
         Waar kan ik je mee van dienst zijn?
         """
         return intro_tekst 

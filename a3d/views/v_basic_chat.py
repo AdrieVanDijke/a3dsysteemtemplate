@@ -30,19 +30,19 @@ class BasicChatView:
             unsafe_allow_html=True  
         )
         
-        with st.sidebar:
-            if st.button("🆕 New Chat 🪄"):
-                st.session_state['chat_history'] = []
-
+        with st.sidebar:            
             option = st.selectbox(
                 "Select a Module",
-                ("🗨️ Basic AI Chatbot", "🔗 Simple Graph", "♻️ ReAct Agent"),
+                ("🤖 Basic AI Chatbot", "🧮 Simple Graph", "♻️ ReAct Agent"),
             )
             # Als de pagina staat niet gelijk is aan de optie, zet de pagina staat en rerun
             if st.session_state['appState'] != option:
                 self.controler.reset()
                 self.appcore.setAppState(option)
                 st.rerun()
+
+            if st.button("🆕 New Chat 🪄"):
+                st.session_state['chat_history'] = []
 
             # Systeemprompt gedeelte       
             st.text_area(
