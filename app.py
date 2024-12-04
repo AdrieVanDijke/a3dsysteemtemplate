@@ -15,6 +15,9 @@ def main():
     elif st.session_state['appState'] == "♻️ ReAct Agent":
         klass = appcore.loadModule("a3d.views.v_react_agent", "ReActAgentView")
         klass()
+    elif st.session_state['appState'] == "🗄️ Embedding":
+        klass = appcore.loadModule("a3d.views.v_embedding", "EmbeddingView")
+        klass()
 
 
 if __name__ == "__main__":

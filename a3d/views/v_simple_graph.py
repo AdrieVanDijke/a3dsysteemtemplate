@@ -32,14 +32,16 @@ class SimpleGraphView:
         with st.sidebar:
             option = st.selectbox(
                 "Select a Module",
-                ("🧮 Simple Graph", "🤖 Basic AI Chatbot", "♻️ ReAct Agent"),
+                ("🧮 Simple Graph", "🤖 Basic AI Chatbot", "♻️ ReAct Agent", "🗄️ Embedding"),
             )
             # Als de pagina staat niet gelijk is aan de optie, zet de pagina staat en rerun
             if st.session_state['appState'] != option:
                 self.controler.reset()
                 self.appcore.setAppState(option)
                 st.rerun()
-
+            if st.button("🆕 New 🪄"):
+                self.controler.reset()
+                st.rerun()
 
     def buildMainView( self ):
         user_query = ''

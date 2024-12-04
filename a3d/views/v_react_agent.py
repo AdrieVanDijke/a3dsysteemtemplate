@@ -32,7 +32,7 @@ class ReActAgentView:
         with st.sidebar:
             option = st.selectbox(
                 "Select a Module",
-                ("♻️ ReAct Agent", "🧮 Simple Graph", "🤖 Basic AI Chatbot"),
+                ("♻️ ReAct Agent", "🧮 Simple Graph", "🤖 Basic AI Chatbot", "🗄️ Embedding"),
             )
             # Als de pagina staat niet gelijk is aan de optie, zet de pagina staat en rerun
             if st.session_state['appState'] != option:
@@ -58,7 +58,6 @@ class ReActAgentView:
                     with st.spinner(f"⚙️ {user_query[:40]}..."):
                         # Run de module met de gebruikers input	                
                         response = self.controler.run(user_query)
-                        #st.session_state['chat_history'] = [] 
                         # Voeg de berichten toe aan de chat geschiedenis                                             
                         st.session_state.chat_history.append(HumanMessage(content=user_query))                
                         st.session_state.chat_history.append(AIMessage(content=response))    
@@ -77,7 +76,7 @@ class ReActAgentView:
     # standaard chat intro tekst
     def getChatIntroTekst( self ):   
         intro_tekst = """        
-        **Hallo**, Ik ben een V/A ReAct Agent met Tools (een zoekfunctie *(zoeken op internet)* en diverse rekengereedschap). 
+        **Hallo**, Ik ben een V/A ReAct Agent met Tools *(een zoekfunctie (zoeken op internet) en diverse rekengereedschap)*. 
         Ik heb geen *echt* geheugen maar van de vorige vraag en het antwoord daarop wordt *(bij een vervolgvraag)* een samenvatting gemaakt.  
         Waar kan ik je mee van dienst zijn?
         """
