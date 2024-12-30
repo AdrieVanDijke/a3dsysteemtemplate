@@ -32,7 +32,7 @@ class ReActAgentView:
         with st.sidebar:
             option = st.selectbox(
                 "Select a Module",
-                ("♻️ ReAct Agent", "🧮 Simple Graph", "🤖 Basic AI Chatbot", "🗄️ Embedding"),
+                ("♻️ ReAct Agent", "🤖 Basic AI Chatbot", "🧮 Simple Graph", "🗄️ Embedding", "😺 CATja RAG Chatbot", "👥 Multi Agents", "💶 E-boekhouden test"),
             )
             # Als de pagina staat niet gelijk is aan de optie, zet de pagina staat en rerun
             if st.session_state['appState'] != option:

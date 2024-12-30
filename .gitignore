@@ -4,5 +4,5 @@ venv/
 .streamlit/secrets.toml
 files/to_db/
 files/to_db_collection/_oldMeerdereFiles/
-files/to_db_collection/_alleAITeksten.txt
+files/to_db_collection/_kwalSystTherapeut.txt
 files/to_db_collection/ToDo.txt

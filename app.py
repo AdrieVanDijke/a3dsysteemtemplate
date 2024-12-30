@@ -18,6 +18,15 @@ def main():
     elif st.session_state['appState'] == "🗄️ Embedding":
         klass = appcore.loadModule("a3d.views.v_embedding", "EmbeddingView")
         klass()
+    elif st.session_state['appState'] == "😺 CATja RAG Chatbot":
+        klass = appcore.loadModule("a3d.views.v_catja", "CatjaView")
+        klass()
+    elif st.session_state['appState'] == "👥 Multi Agents":
+        klass = appcore.loadModule("a3d.views.v_multi_agents", "MultiAgentsView")
+        klass()
+    elif st.session_state['appState'] == "💶 E-boekhouden test":
+        klass = appcore.loadModule("a3d.views.v_e_boekhouden", "E_BoekhoudenView")
+        klass()
 
 
 if __name__ == "__main__":

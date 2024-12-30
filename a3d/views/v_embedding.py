@@ -32,7 +32,7 @@ class EmbeddingView:
         with st.sidebar:
             option = st.selectbox(
                 "Select a Module",
-                ("🗄️ Embedding", "🤖 Basic AI Chatbot", "🧮 Simple Graph", "♻️ ReAct Agent"),
+                ("🗄️ Embedding", "🤖 Basic AI Chatbot", "🧮 Simple Graph", "♻️ ReAct Agent", "😺 CATja RAG Chatbot", "👥 Multi Agents", "💶 E-boekhouden test"),
             )
             # Als de pagina staat niet gelijk is aan de optie, zet de pagina staat en rerun
             if st.session_state['appState'] != option:
